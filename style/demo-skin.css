@@ -1,0 +1,63 @@
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+.toggle-control {
+    border: 1px solid #CACAD9;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.toggle-control label {
+    padding: 5px 8px 5px 8px;
+    border-radius: 2px;
+}
+
+
+.toggle-control input[type="radio"]+label:first-of-type {
+    background-color: #fff;
+    color: #BBB;
+    margin-right: 2px;
+}
+
+.toggle-control input[type="radio"]+label:last-of-type {
+    background-color:#fff;
+    color: #1A6600;
+}
+
+.toggle-control input[type="radio"]:checked+label:first-of-type {
+     background-color: #BBB;
+     color: #fff;
+ }
+
+.toggle-control input[type="radio"]:checked+label:last-of-type {
+     background-color: #1A6600;
+     color: #fff;
+ }
+
+.toggle-control.has-focus,
+.toggle-control:hover {
+     border: 1px solid #000;
+ }
+
+.toggle-control[aria-disabled="true"] {
+    background-color: #DDDDDD;
+    border: 1px #DDDDDD solid;
+}
+
+.toggle-control .toggle-icon {
+    min-width: 10px;
+    display: block;
+}
+
+.toggle-control .toggle-icon-off::before,
+.toggle-control .toggle-icon-on::before {
+    font-family: 'entypo', sans-serif;
+    font-size: 16px;
+}
+
+.toggle-control .toggle-icon-off::before {
+    content:"\2d";
+}
+
+.toggle-control .toggle-icon-on::before {
+    content: "\26ab";
+}

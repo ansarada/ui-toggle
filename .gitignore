@@ -1,0 +1,11 @@
+.sass-cache/
+.DS_store
+/bower_components
+/node_modules
+/dist
+/docs
+/.project
+/source/temp
+/tmp/
+coverage
+/.item/
