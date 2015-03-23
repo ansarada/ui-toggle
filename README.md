@@ -30,7 +30,7 @@ Note: `element` can be a DOM element or jQuery object:
 
 ```javascript
 ToggleControl.init(document.getElementById('element'));
-ToggleControl.init(($('.toggle'));
+ToggleControl.init($('.toggle'));
 ```
 
 ###  Destroy Control
@@ -43,5 +43,5 @@ Note: `element` can be a DOM element or jQuery object:
 
 ```javascript
 ToggleControl.destroy(document.getElementById('element'));
-ToggleControl.destroy(($('.toggle'));
+ToggleControl.destroy($('.toggle'));
 ```
