@@ -1,6 +1,10 @@
 Toggle Control v1.0
 -------------------
 
+## Demo
+
+http://ansarada.github.io/ui-toggle/
+
 ## Setup
 
 ```html
