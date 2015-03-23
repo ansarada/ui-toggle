@@ -1,18 +1,40 @@
-Toggle Control v1.0
--------------------
+Toggle Control
+--------------
+
+jQuery-based toggle control, aka. toggle button. Uses radio buttons to provide two named states, usually on/off or yes/no but can be any mutually-exclusive states.
+
+## Features
+
+- Keyboard accessible (tab to the control, then use cursor keys to change the toggle)
+- Works with swipe gestures (with hammerjs) to better support mobile
+
+## Demo
+
+http://ansarada.github.io/ui-toggle/
 
 ## Setup
 
+Add the style and script:
 ```html
 <link rel="stylesheet" href="style/toggle.css" />
 <script src="script/toggle.js"></script>
 ```
 
+Each toggle uses a radio button pair:
+```html
+<div id="ts1" class="toggle-control">
+    <input id="ts1off" type="radio" value="Off" name="ts1" checked="true">
+    <label for="ts1off"><span class="toggle-icon toggle-icon-off" aria-hidden="true"></span><span>Off</span></label>
+    <input id="ts1on" type="radio" value="On" name="ts1">
+    <label for="ts1on"><span class="toggle-icon toggle-icon-on" aria-hidden="true"></span><span>On</span></label>
+</div>
+```
+Set the initial state using `checked="true"` on the relevant input. Remember to match your ID and FOR attributes.
+
 ## Dependencies
 
-jQuery 1.11 (http://jquery.com/)
-
-hammerjs 2.0.4 (http://hammerjs.github.io/)
+- jQuery 1.11 (http://jquery.com/)
+- hammerjs 2.0.4 (http://hammerjs.github.io/)
 
 ## Usage
 
@@ -26,7 +48,7 @@ Note: `element` can be a DOM element or jQuery object:
 
 ```javascript
 ToggleControl.init(document.getElementById('element'));
-ToggleControl.init(($('.toggle'));
+ToggleControl.init($('.toggle'));
 ```
 
 ###  Destroy Control
@@ -39,30 +61,9 @@ Note: `element` can be a DOM element or jQuery object:
 
 ```javascript
 ToggleControl.destroy(document.getElementById('element'));
-ToggleControl.destroy(($('.toggle'));
+ToggleControl.destroy($('.toggle'));
 ```
-
 
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2015 ansarada
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The MIT License (MIT) Copyright (c) 2015 [ansarada](http://ansarada.com/). See LICENSE for full details.

@@ -2,7 +2,8 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>UI Toggle demo page | ansarada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/toggle.css" />
     <link rel="stylesheet" href="style/demo-skin.css" />
     <link rel="stylesheet" href="style/demo.css" />
@@ -19,9 +20,9 @@
         <!--Mark up OFF-->
         <div id="ts1" class="toggle-control">
             <input id="ts1off" type="radio" value="No" name="ts1" checked="true">
-            <label for="ts1off"><span class="toggle-icon toggle-icon-off"></span><span>No</span></label>
+            <label for="ts1off"><span class="toggle-icon toggle-icon-off" aria-hidden="true"></span><span>No</span></label>
             <input id="ts1on" type="radio" value="Yes" name="ts1">
-            <label for="ts1on"><span class="toggle-icon toggle-icon-on"></span><span>Yes</span></label>
+            <label for="ts1on"><span class="toggle-icon toggle-icon-on" aria-hidden="true"></span><span>Yes</span></label>
         </div>
         <!--End Mark Up OFF-->
 
@@ -32,9 +33,9 @@
         <!--Mark up ON-->
         <div id="ts2" class="toggle-control">
             <input id="ts2off" type="radio" value="No" name="ts2">
-            <label for="ts2off"><span class="toggle-icon toggle-icon-off"></span><span>No</span></label>
+            <label for="ts2off"><span class="toggle-icon toggle-icon-off" aria-hidden="true"></span><span>No</span></label>
             <input id="ts2on" type="radio" value="Yes" name="ts2" checked="true">
-            <label for="ts2on"><span class="toggle-icon toggle-icon-on"></span><span>Yes</span></label>
+            <label for="ts2on"><span class="toggle-icon toggle-icon-on" aria-hidden="true"></span><span>Yes</span></label>
         </div>
         <!--End Mark Up ON-->
     </div>
@@ -46,12 +47,15 @@
         <!--Mark up DISABLE-->
         <div id="ts3" class="toggle-control" aria-disabled="true">
             <input id="ts3off" type="radio" value="No" name="ts3" checked="true" disabled="disabled">
-            <label for="ts3off"><span class="toggle-icon toggle-icon-off"></span><span>No</span></label>
+            <label for="ts3off"><span class="toggle-icon toggle-icon-off" aria-hidden="true"></span><span>No</span></label>
             <input id="ts3on" type="radio" value="Yes" name="ts3" disabled="disabled">
-            <label for="ts3on"><span class="toggle-icon toggle-icon-on"></span><span>Yes</span></label>
+            <label for="ts3on"><span class="toggle-icon toggle-icon-on" aria-hidden="true"></span><span>Yes</span></label>
         </div>
         <!--End Mark up DISABLE-->
     </div>
+    
+    <p><a href="https://github.com/ansarada/ui-toggle/">Source code on github</a></p>
+    
     <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
     <script src="script/toggle.js"></script>
