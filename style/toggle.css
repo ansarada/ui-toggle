@@ -1,0 +1,31 @@
+.toggle-control {
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 0;
+
+    /* Disable text selection in a element */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.toggle-control label {
+    height: 100%;
+    display: inline-block;
+}
+
+.toggle-control input[type="radio"]:last-of-type,
+.toggle-control input[type="radio"]:first-of-type {
+    /* Hide a element without hiding from a screen reader or tab order. */
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
