@@ -1,5 +1,5 @@
 (function($, ToggleControl){
-    $(document).ready(function()  {
+    $(document).ready(function() {
         ToggleControl.init($('.toggle-control'));
     });
 })(window.jQuery, self.ToggleControl);
