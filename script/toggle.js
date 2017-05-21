@@ -32,7 +32,7 @@
 
   root.ToggleControl = function (element, hammerInst) {
     const radioOff = element.find('input[type="radio"]:first'),
-        radioOn = element.find('input[type="radio"]:last');
+          radioOn = element.find('input[type="radio"]:last');
 
     /**
      * Bind swipe and drag events to child label elements
@@ -94,7 +94,7 @@
      * @return {void}
      */
     const _focusControl = () => {
-      element.addClass('has-focus');
+      element[0].classList.add('has-focus');
     }
 
     /**
@@ -102,7 +102,7 @@
      * @return {void}
      */
     const _blurControl = () => {
-      element.removeClass('has-focus');
+       element[0].classList.remove('has-focus');
     }
 
     /**
@@ -162,7 +162,7 @@
      * @return {void}
      */
     const _moveToggle = (fromToggleElement, toToggleElement, toggleWrapperElement) => {
-      if(toggleWrapperElement !== undefined && toggleWrapperElement !== null &&  toggleWrapperElement.attr('aria-disabled') !== 'true'){
+      if(toggleWrapperElement !== undefined && toggleWrapperElement !== null && toggleWrapperElement.attr('aria-disabled') !== 'true'){
         fromToggleElement.prop('checked', false);
         toToggleElement.prop('checked', true);
         toToggleElement.trigger('change');
