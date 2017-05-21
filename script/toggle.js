@@ -32,9 +32,7 @@
 
   root.ToggleControl = function (element, hammerInst) {
     const radioOff = element.find('input[type="radio"]:first'),
-        radioOn = element.find('input[type="radio"]:last')
-        
-    let inputMouse = false;
+        radioOn = element.find('input[type="radio"]:last');
 
     /**
      * Bind swipe and drag events to child label elements
@@ -74,7 +72,6 @@
         radioOn.on('blur', _blurControl);
         radioOff.on('keyup', _keyUpControl);
         radioOn.on('keyup', _keyUpControl);
-        element.on('mousedown', _mouseDownControl);
         element.on('click', _clickControl);
     }
 
@@ -89,7 +86,6 @@
         radioOn.off('blur', _blurControl);
         radioOff.off('keyup', _keyUpControl);
         radioOn.off('keyup', _keyUpControl);
-        element.off('mousedown', _mouseDownControl);
         element.off('click', _clickControl);
     }
 
@@ -110,23 +106,13 @@
     }
 
     /**
-     * Tell us there has been mouse button pressed
-     * @return {void}
-     */
-    const _mouseDownControl = () => {
-      inputMouse = true;
-    }
-
-    /**
      *  If Mouse button has been pressed then toggle the controls
      * @param {object} event - event object
      * @return {void}
      */
     const _clickControl = (event) => {
-      if(inputMouse) {
-        toggleControl(event);
-        inputMouse = false;
-      }
+      event.preventDefault();
+      toggleControl(event);
     }
 
 
@@ -151,9 +137,9 @@
       event.preventDefault();
 
       if(radioOn.is(':checked')){
-        _moveToggle(radioOn, radioOff);
+        _moveToggle(radioOn, radioOff, element);
       } else {
-        _moveToggle(radioOff, radioOn);
+        _moveToggle(radioOff, radioOn, element);
       }
     }
 
@@ -172,10 +158,11 @@
      * Move toggle state from one radio element to new radio element
      * @param {object} fromToggleElement - toggle element that has the value
      * @param {object} toToggleElement - toggle element that is getting the value
+     * @param {object} elementDom - toggle element wrapper
      * @return {void}
      */
-    const _moveToggle = (fromToggleElement, toToggleElement) => {
-      if(element.attr('aria-disabled') !== 'true'){
+    const _moveToggle = (fromToggleElement, toToggleElement, toggleWrapperElement) => {
+      if(toggleWrapperElement !== undefined && toggleWrapperElement !== null &&  toggleWrapperElement.attr('aria-disabled') !== 'true'){
         fromToggleElement.prop('checked', false);
         toToggleElement.prop('checked', true);
         toToggleElement.trigger('change');
@@ -191,12 +178,12 @@
       switch(event.type){
         case 'swipeleft':
         case 'dragleft':
-          _moveToggle(radioOn, radioOff);
+          _moveToggle(radioOn, radioOff, element);
         break;
 
         case 'swiperight':
         case 'dragright':
-          _moveToggle(radioOff, radioOn);
+          _moveToggle(radioOff, radioOn, element);
         break;
 
         default:
