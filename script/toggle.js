@@ -10,173 +10,243 @@
 
 
 (function (Hammer, $) {
-    'use strict';
+  'use strict';
 
-    /** Used to determine if values are of the language type `Object`. */
-    var objectTypes = {
-        'function': true,
-        'object': true
-    };
+  /** Used to determine if values are of the language type `Object`. */
+  const objectTypes = {
+      'function': true,
+      'object': true
+  };
 
-    /** Detect free variable `window`. */
-    var freeWindow = objectTypes[typeof window] && window;
+  /** Detect free variable `window`. */
+  const freeWindow = objectTypes[typeof window] && window;
+
+  /**
+   * Used as a reference to the global object.
+   *
+   * The `this` value is used if it is the global object to avoid Greasemonkey's
+   * restricted `window` object, otherwise the `window` object is used.
+   */
+
+  var root = ((freeWindow !== (this && this.window)) && freeWindow) || this;
+
+  root.ToggleControl = function (element, hammerInst) {
+    const radioOff = element.find('input[type="radio"]:first'),
+          radioOn = element.find('input[type="radio"]:last');
 
     /**
-     * Used as a reference to the global object.
-     *
-     * The `this` value is used if it is the global object to avoid Greasemonkey's
-     * restricted `window` object, otherwise the `window` object is used.
+     * Bind swipe and drag events to child label elements
+     * @return {Object} Hammer Object returned
      */
 
-    var root = ((freeWindow !== (this && this.window)) && freeWindow) || this;
+    const _initHammer = () => {
+      if(Hammer !== undefined && Hammer !== null) {
+        return _setHammerEvents(new Hammer(element[0]));
+      }
 
-   root.ToggleControl =	function (element) {
-        // All the child elements
-        var radioOff = element.find('input[type="radio"]:first'),
-            radioOn = element.find('input[type="radio"]:last'),
-            inputMouse = false,
-            hammerInst; // Hammer Object
-
-        function _initHammer() {
-            // Bind swipe and drag events to child label elements
-            if(Hammer) {
-                hammerInst = new Hammer(element[0]);
-                hammerInst.get('swipe').set({'velocity': 0.3});
-                hammerInst.on('swipeleft swiperight', _hammerEvents);
-            }
-        }
-
-        function _bindEvents() {
-            // Change the border color on toggle has focus or losts focus
-            radioOff.on('focus',_focusControl);
-            radioOff.on('blur',_blurControl);
-            radioOn.on('focus',_focusControl);
-            radioOn.on('blur',_blurControl);
-            radioOff.on('keyup',_keyUpControl);
-            radioOn.on('keyup',_keyUpControl);
-            element.on('mousedown', _mouseDownControl);
-            element.on('click', _clickControl);
-        }
+      return;
+    }
 
 
-        function _destroyEvents() {
-            //  Remove change the border color on toggle has focus or losts focus events
-            radioOff.off('focus',_focusControl);
-            radioOff.off('blur',_blurControl);
-            radioOn.off('focus',_focusControl);
-            radioOn.off('blur',_blurControl);
-            radioOff.off('keyup',_keyUpControl);
-            radioOn.off('keyup',_keyUpControl);
-            element.off('mousedown', _mouseDownControl);
-            element.off('click', _clickControl);
-        }
+    /**
+     * Bind swipe and drag events to child label elements
+     * @param {object} event - event object
+     * @param {function} swipeEventFunct - swipe function
+     * @return {object} hammer object
+     */
 
-        function _focusControl() {
-            // Toggle Control has focus
-            element.addClass('has-focus');
-        }
+    const _setHammerEvents = (hammer, swipeEventFunc) => {
+       hammer.get('swipe').set({'velocity': 0.3});
+       hammer.on('swipeleft swiperight', event);
+       return hammer;
+    }
 
-        function _blurControl() {
-            // Toggle Control has lost focus
-            element.removeClass('has-focus');
-        }
+    /**
+     * Change the border color on toggle has focus or losts focus
+     * @return {void}
+     */
+    const _bindEvents = () => {
+        radioOff.on('focus', _focusControl);
+        radioOff.on('blur', _blurControl);
+        radioOn.on('focus', _focusControl);
+        radioOn.on('blur', _blurControl);
+        radioOff.on('keyup', _keyUpControl);
+        radioOn.on('keyup', _keyUpControl);
+        element.on('click', _clickControl);
+    }
 
-        function _mouseDownControl(){
-            // Tell us there has been mouse button pressed
-            inputMouse = true;
-        }
+    /**
+     * Remove change the border color on toggle has focus or losts focus events
+     * @return {void}
+     */
+    const _destroyEvents = () => {
+        radioOff.off('focus', _focusControl);
+        radioOff.off('blur', _blurControl);
+        radioOn.off('focus', _focusControl);
+        radioOn.off('blur', _blurControl);
+        radioOff.off('keyup', _keyUpControl);
+        radioOn.off('keyup', _keyUpControl);
+        element.off('click', _clickControl);
+    }
 
-        function _clickControl(event) {
-            // If Mouse button has been pressed then toggle the controls
-            if(inputMouse) {
-                toggleControl(event);
-                inputMouse = false;
-            }
-        }
+    /**
+     * Toggle Control has focus
+     * @return {void}
+     */
+    const _focusControl = () => {
+      element[0].classList.add('has-focus');
+    }
 
-        function _keyUpControl(event){
-            // If the space bar is press do toggle the controls
-            if(event.keyCode == 32) {
-                toggleControl(event);
-            }
-        }
+    /**
+     * Toggle Control has lost focus
+     * @return {void}
+     */
+    const _blurControl = () => {
+       element[0].classList.remove('has-focus');
+    }
 
-        function toggleControl(event){
-            //Toggle selected options
-            event.preventDefault();
-            if(radioOn.is(":checked")){
-                _moveToggle(radioOn, radioOff);
-            } else {
-                _moveToggle(radioOff, radioOn);
-            }
-        }
+    /**
+     *  If Mouse button has been pressed then toggle the controls
+     * @param {object} event - event object
+     * @return {void}
+     */
+    const _clickControl = (event) => {
+      event.preventDefault();
+      toggleControl(event);
+    }
 
-        function _destroyHammer() {
-            // Unbind swipe and drag events
-            if(Hammer) {
-                hammerInst.off('swipeleft swiperight');
-            }
-        }
 
-        function _moveToggle(fromToggleElement, toToggleElement){
-            if(element.attr('aria-disabled') != 'true'){
-                fromToggleElement.prop('checked', false);
-                toToggleElement.prop('checked', true);
-            }
-        }
+    /**
+     * If the space bar is press do toggle the controls
+     * @param {object} event - event object
+     * @return {void}
+     */
+    const _keyUpControl = (event) => {
+      if(event.keyCode === 32) {
+        toggleControl(event);
+      }
+    }
 
-        function _hammerEvents(event) {
-            // Swipe and drag hammer events
-            switch(event.type){
-                case 'swipeleft':
-                case 'dragleft':
-                    _moveToggle(radioOn, radioOff);
-                    break;
+    /**
+     * Toggle selected options
+     * @param {object} event - event object
+     * @return {void}
+     */
 
-                case 'swiperight':
-                case 'dragright':
-                    _moveToggle(radioOff, radioOn);
-                    break;
+    const toggleControl = (event) => {
+      event.preventDefault();
 
-                default:
-                    break;
-            }
-        }
+      if(radioOn.is(':checked')){
+        _moveToggle(radioOn, radioOff, element);
+      } else {
+        _moveToggle(radioOff, radioOn, element);
+      }
+    }
 
-        function destroy() {
-            _destroyHammer();
-            _destroyEvents();
-        }
+    /**
+     * Unbind swipe and drag events
+     * @return {void}
+     */
 
-        _bindEvents();
-        _initHammer();
+    const _destroyHammer = () => {
+      if(Hammer !== undefined && Hammer !== null && hammerInst !== undefined && hammerInst !== null) {
+          hammerInst.off('swipeleft swiperight');
+      }
+    }
 
-        this.destroy = destroy;
+    /**
+     * Move toggle state from one radio element to new radio element
+     * @param {object} fromToggleElement - toggle element that has the value
+     * @param {object} toToggleElement - toggle element that is getting the value
+     * @param {object} elementDom - toggle element wrapper
+     * @return {void}
+     */
+    const _moveToggle = (fromToggleElement, toToggleElement, toggleWrapperElement) => {
+      if(toggleWrapperElement !== undefined && toggleWrapperElement !== null && toggleWrapperElement.attr('aria-disabled') !== 'true'){
+        fromToggleElement.prop('checked', false);
+        toToggleElement.prop('checked', true);
+        toToggleElement.trigger('change');
+      }
+    }
+
+    /**
+     * Swipe and drag hammer events
+     * @param {object} event - event object
+     * @return {void}
+     */
+    const _hammerEvents = (event) => {
+      switch(event.type){
+        case 'swipeleft':
+        case 'dragleft':
+          _moveToggle(radioOn, radioOff, element);
+        break;
+
+        case 'swiperight':
+        case 'dragright':
+          _moveToggle(radioOff, radioOn, element);
+        break;
+
+        default:
+        break;
+      }
+    }
+
+    /**
+     * destroy toggle object and event binding
+     * @return {void}
+     */
+    const destroy = () => {
+      _destroyHammer();
+      _destroyEvents();
+    }
+
+      _bindEvents();
+      _initHammer();
+
+      this.destroy = destroy;
     };
 
     $.fn.toggleControl = function() {
-        this.each(function(){
-            var $this = $(this),
-                instance = $this.data('toggleControl');
-            if(!instance){
-                $this.data('toggleControl', new root.ToggleControl($this));
-            }
-        });
-        return this;
+      this.each(function(){
+          const $this = 
+                $(this)
+              , instance = $this.data('toggleControl');
+
+          if(!instance){
+              $this.data(
+                 'toggleControl'
+                , new root.ToggleControl($this)
+                , new Hammer(this)
+              );
+          }
+      });
+
+      return this;
     };
 
-    root.ToggleControl.init = function(elementSelector){
+    /**
+    * Toggle object initiate
+    * @param {string} elementSelector - Element selector string
+    * @return {void}
+    */
+    root.ToggleControl.init = (elementSelector) => {
         return $(elementSelector).toggleControl();
     };
 
-    root.ToggleControl.destroy = function(elementSelector){
-        $(elementSelector).each(function(){
-            var $this = $(this);
-            var instance = $this.data('toggleControl');
-            if(instance){
-                instance.destroy();
-            }
-        });
+    /**
+    * Toggle object destroy
+    * @param {string} elementSelector - Element selector string
+    * @return {void}
+    */
+
+    root.ToggleControl.destroy = (elementSelector) => {
+      $(elementSelector).each(function(){
+          var $this = $(this);
+          var instance = $this.data('toggleControl');
+          if(instance){
+              instance.destroy();
+          }
+      });
     };
 
 })(window.Hammer, window.jQuery);

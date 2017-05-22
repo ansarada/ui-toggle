@@ -1,7 +1,5 @@
-(function($, ToggleControl){
-    $(document).ready(function()  {
-        ToggleControl.init($('.toggle-control'));
-    });
-})(window.jQuery, self.ToggleControl);
+(function(ToggleControl) {
+'use strict';
 
-
+ ToggleControl.init('.toggle-control');
+})(self.ToggleControl);
