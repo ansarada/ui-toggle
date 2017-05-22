@@ -3,6 +3,10 @@ Toggle Control
 
 jQuery-based toggle control, aka. toggle button. Uses radio buttons to provide two named states, usually on/off or yes/no but can be any mutually-exclusive states.
 
+## Support
+
+Will not work on non-es6 browsers without consuming via babel.
+
 ## Features
 
 - Keyboard accessible (tab to the control, then use cursor keys to change the toggle)
